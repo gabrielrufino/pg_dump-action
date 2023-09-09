@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  - push
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        postgres-version: [13, 14, 15]
+    services:
+      database:
+        image: postgres:${{ matrix.postgres-version }}
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          postgres-version: ${{ matrix.postgres-version }}
+          connection-string: postgres://root:root@localhost:5432/postgres
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dump-postgres${{ matrix.postgres-version }}
+          path: ${{ github.workspace }}/dump
