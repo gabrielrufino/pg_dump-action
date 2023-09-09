@@ -8,12 +8,18 @@ inputs:
     required: true
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.postgres-version }}
-    - ${{ inputs.connection-string }}
+  using: composite
+  steps:
+    - run: |
+        docker container run \
+          --name action-postgres \
+          -d \
+          postgres:${{ inputs.postgres-version }}
+    - run: |
+        docker container exec \
+          action-postgres \
+          pg_dump -d ${{ inputs.connection-string }} > /tmp/backup.sql
 
 branding:
-  icon: 'database'
-  color: 'blue'
+  icon: database
+  color: blue
