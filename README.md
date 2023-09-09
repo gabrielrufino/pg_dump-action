@@ -1,1 +1,1 @@
-# pg_dump-action
+# pgDump Action

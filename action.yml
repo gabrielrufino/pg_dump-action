@@ -1,0 +1,19 @@
+name: pgDump Action
+description: GitHub Action for creating a dump of a database's contents
+
+inputs:
+  postgres-version:
+    required: true
+  connection-string:
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.postgres-version }}
+    - ${{ inputs.connection-string }}
+
+branding:
+  icon: 'database'
+  color: 'blue'
