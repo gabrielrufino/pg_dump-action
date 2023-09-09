@@ -15,10 +15,12 @@ runs:
           --name action-postgres \
           -d \
           postgres:${{ inputs.postgres-version }}
+      shell: bash
     - run: |
         docker container exec \
           action-postgres \
           pg_dump -d ${{ inputs.connection-string }} > /tmp/backup.sql
+      shell: bash
 
 branding:
   icon: database
