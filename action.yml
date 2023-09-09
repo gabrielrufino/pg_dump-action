@@ -17,6 +17,11 @@ runs:
           postgres:${{ inputs.postgres-version }}
       shell: bash
     - run: |
+        until [ "`docker inspect -f {{.State.Running}} action-postgres`"=="true" ]; do
+          sleep 0.1;
+        done;
+      shell: bash
+    - run: |
         docker container exec \
           action-postgres \
           pg_dump -d ${{ inputs.connection-string }} > /tmp/backup.sql
