@@ -22,7 +22,7 @@ jobs:
       - uses: ./
         with:
           postgres-version: ${{ matrix.postgres-version }}
-          connection-string: postgres://root:root@database:5432/postgres
+          connection-string: postgres://root:root@localhost:5432/postgres
       - uses: actions/upload-artifact@v3
         with:
           name: dump-postgres${{ matrix.postgres-version }}
